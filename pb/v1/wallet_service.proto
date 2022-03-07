@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package wallet.v1;
+
+option go_package = "github.com/charlesonunze/wallet-service/pb/v1;walletpb";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "validate/validate.proto";
+
+service WalletService {
+  // Credit a user's wallet
+  rpc CreditUser(CreditUserRequest) returns (google.protobuf.Empty) {};
+
+  // Debit from a user's wallet
+  rpc DebitUser(DebitUserRequest) returns (google.protobuf.Empty) {};
+
+  // Get a user's wallet balance
+  rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {};
+}
+
+message CreditUserRequest {
+  int64 user_id = 1 [(validate.rules).int64 = { ignore_empty: true }];
+  int64 amount  = 2 [(validate.rules).int64 = { ignore_empty: true }];
+}
+
+message DebitUserRequest {
+  int64 user_id = 1 [(validate.rules).int64 = { ignore_empty: true }];
+  int64 amount  = 2 [(validate.rules).int64 = { ignore_empty: true }];
+}
+
+message GetUserBalanceRequest {
+  int64 user_id = 1 [(validate.rules).int64 = { ignore_empty: true }];
+}
+
+message GetUserBalanceResponse {
+  int64 user_id = 1;
+  int64 balance = 2;
+}

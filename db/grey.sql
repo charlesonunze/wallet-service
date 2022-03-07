@@ -41,4 +41,4 @@ VALUES (10000000, 'Charles');
 
 -- Seed
 INSERT INTO "wallets" ("id", "user_id", "balance") 
-VALUES (1, 1, 100000);
+VALUES (1, 10000000, 100000);

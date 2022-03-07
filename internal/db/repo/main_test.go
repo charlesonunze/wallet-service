@@ -10,11 +10,10 @@ import (
 )
 
 var (
-	dbDriver = os.Getenv("DB_DRIVER")
-	dbSource = os.Getenv("DB_URI_TEST")
+	dbDriver    = os.Getenv("DB_DRIVER")
+	dbSource    = os.Getenv("DB_URI_TEST")
+	testQueries *Queries
 )
-
-var testQueries *Queries
 
 func TestMain(m *testing.M) {
 	conn, err := sql.Open(dbDriver, dbSource)
