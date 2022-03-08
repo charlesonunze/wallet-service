@@ -10,10 +10,10 @@ import "validate/validate.proto";
 
 service WalletService {
   // Credit a user's wallet
-  rpc CreditUser(CreditUserRequest) returns (google.protobuf.Empty) {};
+  rpc CreditUser(CreditUserRequest) returns (CreditUserResponse) {};
 
   // Debit from a user's wallet
-  rpc DebitUser(DebitUserRequest) returns (google.protobuf.Empty) {};
+  rpc DebitUser(DebitUserRequest) returns (DebitUserResponse) {};
 
   // Get a user's wallet balance
   rpc GetUserBalance(GetUserBalanceRequest) returns (GetUserBalanceResponse) {};
@@ -33,7 +33,14 @@ message GetUserBalanceRequest {
   int64 user_id = 1 [(validate.rules).int64 = { ignore_empty: true }];
 }
 
+message CreditUserResponse {
+  int64 balance = 1;
+}
+
+message DebitUserResponse {
+  int64 balance = 1;
+}
+
 message GetUserBalanceResponse {
-  int64 user_id = 1;
-  int64 balance = 2;
+  int64 balance = 1;
 }

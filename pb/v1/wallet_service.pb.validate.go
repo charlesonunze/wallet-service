@@ -356,6 +356,212 @@ var _ interface {
 	ErrorName() string
 } = GetUserBalanceRequestValidationError{}
 
+// Validate checks the field values on CreditUserResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *CreditUserResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on CreditUserResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// CreditUserResponseMultiError, or nil if none found.
+func (m *CreditUserResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *CreditUserResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Balance
+
+	if len(errors) > 0 {
+		return CreditUserResponseMultiError(errors)
+	}
+	return nil
+}
+
+// CreditUserResponseMultiError is an error wrapping multiple validation errors
+// returned by CreditUserResponse.ValidateAll() if the designated constraints
+// aren't met.
+type CreditUserResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m CreditUserResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m CreditUserResponseMultiError) AllErrors() []error { return m }
+
+// CreditUserResponseValidationError is the validation error returned by
+// CreditUserResponse.Validate if the designated constraints aren't met.
+type CreditUserResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e CreditUserResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e CreditUserResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e CreditUserResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e CreditUserResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e CreditUserResponseValidationError) ErrorName() string {
+	return "CreditUserResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e CreditUserResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sCreditUserResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = CreditUserResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = CreditUserResponseValidationError{}
+
+// Validate checks the field values on DebitUserResponse with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *DebitUserResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DebitUserResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DebitUserResponseMultiError, or nil if none found.
+func (m *DebitUserResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DebitUserResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Balance
+
+	if len(errors) > 0 {
+		return DebitUserResponseMultiError(errors)
+	}
+	return nil
+}
+
+// DebitUserResponseMultiError is an error wrapping multiple validation errors
+// returned by DebitUserResponse.ValidateAll() if the designated constraints
+// aren't met.
+type DebitUserResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DebitUserResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DebitUserResponseMultiError) AllErrors() []error { return m }
+
+// DebitUserResponseValidationError is the validation error returned by
+// DebitUserResponse.Validate if the designated constraints aren't met.
+type DebitUserResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DebitUserResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DebitUserResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DebitUserResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DebitUserResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DebitUserResponseValidationError) ErrorName() string {
+	return "DebitUserResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DebitUserResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDebitUserResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DebitUserResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DebitUserResponseValidationError{}
+
 // Validate checks the field values on GetUserBalanceResponse with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -377,8 +583,6 @@ func (m *GetUserBalanceResponse) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for UserId
 
 	// no validation rules for Balance
 

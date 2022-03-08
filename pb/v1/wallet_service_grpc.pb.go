@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -24,9 +23,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WalletServiceClient interface {
 	// Credit a user's wallet
-	CreditUser(ctx context.Context, in *CreditUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreditUser(ctx context.Context, in *CreditUserRequest, opts ...grpc.CallOption) (*CreditUserResponse, error)
 	// Debit from a user's wallet
-	DebitUser(ctx context.Context, in *DebitUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DebitUser(ctx context.Context, in *DebitUserRequest, opts ...grpc.CallOption) (*DebitUserResponse, error)
 	// Get a user's wallet balance
 	GetUserBalance(ctx context.Context, in *GetUserBalanceRequest, opts ...grpc.CallOption) (*GetUserBalanceResponse, error)
 }
@@ -39,8 +38,8 @@ func NewWalletServiceClient(cc grpc.ClientConnInterface) WalletServiceClient {
 	return &walletServiceClient{cc}
 }
 
-func (c *walletServiceClient) CreditUser(ctx context.Context, in *CreditUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *walletServiceClient) CreditUser(ctx context.Context, in *CreditUserRequest, opts ...grpc.CallOption) (*CreditUserResponse, error) {
+	out := new(CreditUserResponse)
 	err := c.cc.Invoke(ctx, "/wallet.v1.WalletService/CreditUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -48,8 +47,8 @@ func (c *walletServiceClient) CreditUser(ctx context.Context, in *CreditUserRequ
 	return out, nil
 }
 
-func (c *walletServiceClient) DebitUser(ctx context.Context, in *DebitUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *walletServiceClient) DebitUser(ctx context.Context, in *DebitUserRequest, opts ...grpc.CallOption) (*DebitUserResponse, error) {
+	out := new(DebitUserResponse)
 	err := c.cc.Invoke(ctx, "/wallet.v1.WalletService/DebitUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,9 +70,9 @@ func (c *walletServiceClient) GetUserBalance(ctx context.Context, in *GetUserBal
 // for forward compatibility
 type WalletServiceServer interface {
 	// Credit a user's wallet
-	CreditUser(context.Context, *CreditUserRequest) (*emptypb.Empty, error)
+	CreditUser(context.Context, *CreditUserRequest) (*CreditUserResponse, error)
 	// Debit from a user's wallet
-	DebitUser(context.Context, *DebitUserRequest) (*emptypb.Empty, error)
+	DebitUser(context.Context, *DebitUserRequest) (*DebitUserResponse, error)
 	// Get a user's wallet balance
 	GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error)
 }
@@ -82,10 +81,10 @@ type WalletServiceServer interface {
 type UnimplementedWalletServiceServer struct {
 }
 
-func (UnimplementedWalletServiceServer) CreditUser(context.Context, *CreditUserRequest) (*emptypb.Empty, error) {
+func (UnimplementedWalletServiceServer) CreditUser(context.Context, *CreditUserRequest) (*CreditUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreditUser not implemented")
 }
-func (UnimplementedWalletServiceServer) DebitUser(context.Context, *DebitUserRequest) (*emptypb.Empty, error) {
+func (UnimplementedWalletServiceServer) DebitUser(context.Context, *DebitUserRequest) (*DebitUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DebitUser not implemented")
 }
 func (UnimplementedWalletServiceServer) GetUserBalance(context.Context, *GetUserBalanceRequest) (*GetUserBalanceResponse, error) {

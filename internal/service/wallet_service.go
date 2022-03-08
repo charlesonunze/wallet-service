@@ -9,8 +9,8 @@ import (
 
 // WalletService - interface for the wallet service
 type WalletService interface {
-	CreditUser(ctx context.Context, userID, amount int64) error
-	DebitUser(ctx context.Context, userID, amount int64) error
+	CreditUser(ctx context.Context, userID, amount int64) (int64, error)
+	DebitUser(ctx context.Context, userID, amount int64) (int64, error)
 	GetUserBalance(ctx context.Context, userID int64) (repo.Wallet, error)
 }
 
@@ -25,42 +25,44 @@ func New(repo *repo.Queries) WalletService {
 	}
 }
 
-func (w *walletService) CreditUser(ctx context.Context, userID, amount int64) error {
+func (w *walletService) CreditUser(ctx context.Context, userID, amount int64) (int64, error) {
+	var balance int64
 	wallet, err := w.repo.GetWallet(ctx, userID)
 	if err != nil {
-		return err
+		return balance, err
 	}
 
-	_, err = w.repo.UpdateWallet(ctx, repo.UpdateWalletParams{
+	wallet, err = w.repo.UpdateWallet(ctx, repo.UpdateWalletParams{
 		UserID:  userID,
 		Balance: wallet.Balance + amount,
 	})
 	if err != nil {
-		return err
+		return balance, err
 	}
 
-	return nil
+	return wallet.Balance, nil
 }
 
-func (w *walletService) DebitUser(ctx context.Context, userID, amount int64) error {
+func (w *walletService) DebitUser(ctx context.Context, userID, amount int64) (int64, error) {
+	var balance int64
 	wallet, err := w.repo.GetWallet(ctx, userID)
 	if err != nil {
-		return err
+		return balance, err
 	}
 
 	if amount > wallet.Balance {
-		return errors.New("insufficient funds")
+		return balance, errors.New("insufficient funds")
 	}
 
-	_, err = w.repo.UpdateWallet(ctx, repo.UpdateWalletParams{
+	wallet, err = w.repo.UpdateWallet(ctx, repo.UpdateWalletParams{
 		UserID:  userID,
 		Balance: wallet.Balance - amount,
 	})
 	if err != nil {
-		return err
+		return balance, err
 	}
 
-	return nil
+	return wallet.Balance, nil
 }
 
 func (w *walletService) GetUserBalance(ctx context.Context, userID int64) (repo.Wallet, error) {

@@ -30,12 +30,14 @@ func main() {
 
 	repo = db.New(conn)
 
-	lis, err := net.Listen("tcp", ":8080")
+	lis, err := net.Listen("tcp", GRPC_PORT)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
 	walletpb.RegisterWalletServiceServer(s, handler.New(repo))
-	s.Serve(lis)
+
+	log.Println("Serving gRPC on", GRPC_PORT)
+	log.Fatalln(s.Serve(lis))
 }

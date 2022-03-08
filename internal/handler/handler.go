@@ -6,7 +6,6 @@ import (
 	repo "github.com/charlesonunze/wallet-service/internal/db/repo"
 	"github.com/charlesonunze/wallet-service/internal/service"
 	walletpb "github.com/charlesonunze/wallet-service/pb/v1"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 type server struct {
@@ -24,35 +23,37 @@ func (s *server) GetService() service.WalletService {
 	return service.New(s.repo)
 }
 
-func (s *server) CreditUser(ctx context.Context, req *walletpb.CreditUserRequest) (*emptypb.Empty, error) {
-	var res emptypb.Empty
+func (s *server) CreditUser(ctx context.Context, req *walletpb.CreditUserRequest) (*walletpb.CreditUserResponse, error) {
+	var res walletpb.CreditUserResponse
 	err := req.Validate()
 	if err != nil {
 		return &res, err
 	}
 
 	svc := s.GetService()
-	err = svc.CreditUser(ctx, req.UserId, req.Amount)
+	balance, err := svc.CreditUser(ctx, req.UserId, req.Amount)
 	if err != nil {
 		return &res, err
 	}
 
+	res.Balance = balance
 	return &res, nil
 }
 
-func (s *server) DebitUser(ctx context.Context, req *walletpb.DebitUserRequest) (*emptypb.Empty, error) {
-	var res emptypb.Empty
+func (s *server) DebitUser(ctx context.Context, req *walletpb.DebitUserRequest) (*walletpb.DebitUserResponse, error) {
+	var res walletpb.DebitUserResponse
 	err := req.Validate()
 	if err != nil {
 		return &res, err
 	}
 
 	svc := s.GetService()
-	err = svc.DebitUser(ctx, req.UserId, req.Amount)
+	balance, err := svc.DebitUser(ctx, req.UserId, req.Amount)
 	if err != nil {
 		return &res, err
 	}
 
+	res.Balance = balance
 	return &res, nil
 }
 
@@ -70,7 +71,6 @@ func (s *server) GetUserBalance(ctx context.Context, req *walletpb.GetUserBalanc
 	}
 
 	return &walletpb.GetUserBalanceResponse{
-		UserId:  b.UserID,
 		Balance: b.Balance,
 	}, nil
 }
